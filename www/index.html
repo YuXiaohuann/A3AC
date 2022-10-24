@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Arma 3 Artillery Calculator</title>
+	<title>Arma 3 火炮计算器</title>
 	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
 	<link rel="icon" href="favicon.ico">
 	<link rel="stylesheet" href="foundation.css">
@@ -14,15 +14,15 @@
 <body>
 	<form ng-controller="armaCalcController as aCtrl">
 		<header class="row">
-			<h1 class="small-12 columns">Arma 3 Artillery Calculator</h1>
+			<h1 class="small-12 columns">Arma 3 火炮计算器</h1>
 		</header>
 		<div class="row">
 			<fieldset class="small-12 columns">
-				<legend>Input <span class="gray">(8 digit grid / meters)</span></legend>
+				<legend>输入 <span class="gray">(8 位数字网格坐标 / 米)</span></legend>
 				<div class="row type">
 					<div class="small-12 columns">
 						<select ng-model="aCtrl.type" ng-options="t.id as t.name for t in aCtrl.types" ng-change="aCtrl.calc()">
-							<option value="" disabled selected style="display:none">Select battery type</option>
+							<option value="" disabled selected style="display:none">选择火炮类型</option>
 							<!--							<option ng-repeat="(type, name) in " value="{{type}}">{{name}}</option>-->
 						</select>
 					</div>
@@ -40,14 +40,14 @@
 									</th>
 									<th ng-hide="aCtrl.insight" class="tdb">X</th>
 									<th ng-hide="aCtrl.insight" class="tdb">Y</th>
-									<th ng-show="aCtrl.insight" class="tdb" colspan="2">X <span class="gray">&thinsp;(range)</span></th>
-									<th class="tdb">Z <span class="gray">&thinsp;(altitude)</span></th>
+									<th ng-show="aCtrl.insight" class="tdb" colspan="2">X <span class="gray">&thinsp;(距离)</span></th>
+									<th class="tdb">Z <span class="gray">&thinsp;(高度)</span></th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr ng-hide="aCtrl.insight">
 									<th>
-										<label for="bx" class="inline">Battery</label>
+										<label for="bx" class="inline">火炮坐标</label>
 									</th>
 									<td>
 										<input type="number" name="bx" id="bx" ng-model="aCtrl.bx" ng-change="aCtrl.calc()">
@@ -61,7 +61,7 @@
 								</tr>
 								<tr ng-hide="aCtrl.insight">
 									<th>
-										<label for="tx" class="inline">Target</label>
+										<label for="tx" class="inline">目标坐标</label>
 									</th>
 									<td>
 										<input type="number" name="tx" id="tx" ng-model="aCtrl.tx" ng-change="aCtrl.calc()">
@@ -75,7 +75,7 @@
 								</tr>
 								<tr>
 									<th>
-										<label class="inline">Range</label>
+										<label class="inline">射程( 距离 | 高度差 )</label>
 									</th>
 									<td colspan="2">
 										<input type="number" name="d" id="d" required ng-disabled="!aCtrl.insight" ng-model="aCtrl.d" ng-change="aCtrl.calc()">
@@ -90,34 +90,34 @@
 				</div>
 			</fieldset>
 			<fieldset class="small-12 columns output">
-				<legend>Output</legend>
+				<legend>结果</legend>
 				<div class="row fi">
 					<div class="columns small-4 medium-4 large-3 disabled range">
 						<label>
-							<h5>Mode</h5></label>
+							<h5>模式</h5></label>
 						<div class="range-slider disabled vertical-range" data-slider data-options="vertical: true; start: 1; end: 5; step: 1; initial: 1">
 							<span class="range-slider-handle" role="slider" tabindex="0"></span>
 							<span class="range-slider-active-segment"></span>
 							<input type="hidden">
 						</div>
 						<ul>
-							<li ng-click="aCtrl.calc(4)" ng-class="{active: aCtrl.modes.indexOf('4') != -1}"><span ng-show="aCtrl.type == 'howitzer'">Extreme</span></li>
-							<li ng-click="aCtrl.calc(3)" ng-class="{active: aCtrl.modes.indexOf('3') != -1}"><span ng-show="aCtrl.type == 'mlrs'">Full</span><span ng-show="aCtrl.type == 'howitzer'">Further</span></li>
-							<li ng-click="aCtrl.calc(2)" ng-class="{active: aCtrl.modes.indexOf('2') != -1}"><span>Far</span></li>
-							<li ng-click="aCtrl.calc(1)" ng-class="{active: aCtrl.modes.indexOf('1') != -1}"><span>Medium</span></li>
-							<li ng-click="aCtrl.calc(0)" ng-class="{active: aCtrl.modes.indexOf('0') != -1}"><span>Short</span></li>
+							<li ng-click="aCtrl.calc(4)" ng-class="{active: aCtrl.modes.indexOf('4') != -1}"><span ng-show="aCtrl.type == 'howitzer'">最远</span></li>
+							<li ng-click="aCtrl.calc(3)" ng-class="{active: aCtrl.modes.indexOf('3') != -1}"><span ng-show="aCtrl.type == 'mlrs'">最大</span><span ng-show="aCtrl.type == 'howitzer'">较远</span></li>
+							<li ng-click="aCtrl.calc(2)" ng-class="{active: aCtrl.modes.indexOf('2') != -1}"><span>远距离</span></li>
+							<li ng-click="aCtrl.calc(1)" ng-class="{active: aCtrl.modes.indexOf('1') != -1}"><span>中距离</span></li>
+							<li ng-click="aCtrl.calc(0)" ng-class="{active: aCtrl.modes.indexOf('0') != -1}"><span>近距离</span></li>
 						</ul>
 					</div>
 					<div class="small-4 large-5 columns">
 						<label for="b">
-							<h5>ELV</h5>
+							<h5>ELV(火炮俯仰角)</h5>
 							<input type="number" ng-model="elvh" id="elvh" name="elvh" disabled>
 							<input type="number" ng-model="elvl" id="elvl" name="elvl" disabled>
 						</label>
 					</div>
 					<div class="small-4 large-4 columns">
 						<label for="b">
-							<h5>TRV <span class="gray">&thinsp;(ETA)</span></h5>
+							<h5>TRV <span class="gray">&thinsp;(预计到达时间)</span></h5>
 							<input type="number" ng-model="etah" id="etah" name="etah" disabled>
 							<input type="number" ng-model="etal" id="etal" name="etal" disabled>
 						</label>
@@ -126,7 +126,7 @@
 				<div class="row bearing" ng-hide="aCtrl.insight">
 					<div class="small-12 columns">
 						<label for="b">
-							<h5>DIR</h5></label>
+							<h5>方位角</h5></label>
 						<div class="row">
 							<div class="small-4 medium-3 large-2 columns">
 								<input type="text" name="b" id="b" disabled ng-model="aCtrl.b">
@@ -142,6 +142,7 @@
 					</div>
 				</div>
 			</fieldset>
+			<div style="margin: 0 auto;float: left">作者：<a href="http://www.tymek.cz" style="margin-right: 20px;" >Tymoteusz Czech</a>翻译：于小环 (如有问题请联系：898570549@qq.com)</div>
 		</div>
 	</form>
 	<script src="jquery.js"></script>
